@@ -22,3 +22,131 @@ for (let i = 0; i < 5 ;i++) {
 // hope u complete this calculator with functionality and BEREHMII 
 
 // Arpit -_-
+
+let currentInput = "0";
+let previousInput = "0";
+let operation = null;
+let resetInput = false;
+let calculationString = "";
+
+const display = document.getElementById("display");
+const calculation = document.getElementById("calculation");
+
+// Updating the display
+function updateDisplay() {
+    display.textContent = currentInput;
+    calculation.textContent = calculationString || "0";
+}
+
+
+function inputDigit(digit) {
+    if (resetInput) {
+        currentInput = digit;
+        resetInput = false;
+    }
+    else {
+        currentInput = currentInput === "0" ? digit : currentInput + digit;
+    }
+    updateDisplay();
+}
+
+function inputDecimal() {
+    if (resetInput) {
+        currentInput = "0.";
+        resetInput = false;
+    }
+    else if (currentInput.indexOf(".") === -1) {
+        currentInput += ".";
+    }
+    updateDisplay();
+}
+
+function handleOperator(nextOperator) {
+    const inputValue = parseFloat(currentInput);
+
+    if (operator && !resetInput) {
+        calculate();
+    }
+    else if (!resetInput) {
+        previousInput = currentInput;
+    }
+    
+    resetInput = true;
+    operation = nextOperator;
+
+    switch(nextOperator) {
+        case "+":
+            calculationString = previousInput + " + ";
+            break;
+        case "-":   
+            calculationString = previousInput + " - ";
+            break;
+        case "*":
+            calculationString = previousInput + " * ";
+            break;
+        case "/":
+            calculationString = previousInput + " / ";
+            break; 
+    }
+
+    updateDisplay();
+}
+
+// Final result calculation
+function calculate() {
+    const previousValue = parseFloat(previousInput);
+    const currentValue = parseFloat(currentInput);
+
+    if (isNaN (previousValue) || isNaN(currentValue)) {
+        return;
+    }
+
+    let result;
+
+    switch (operation) {
+        case "+":
+            result = previousValue + currentValue;
+            calculationString = "${previousValue} + ${currentValue}";
+            break;
+        case "-":
+            result = previousValue - currentValue;
+            calculationString = "${previousValue} - ${currentValue}";
+            break;
+        case "*":
+            result = previousValue * currentValue;
+            calculationString = "${previousValue} * ${currentValue}";
+            break;
+        case "/":
+            result = previousValue / currentValue;
+            calculationString = "${previousValue} / ${currentValue}";
+            break;
+        default:
+            return;
+    }
+
+    currentInput = result.toString();
+    if (currentInput.length > 12) {
+        currentInput = parseFloat(currentInput).toExponential(8);
+    }
+
+    operation = null;
+    resetInput = true;
+    previousInput = currentInput;
+    updateDisplay();
+}
+
+// Clearing the calculator 
+function resetCalculator() {
+    currentInput = "0";
+    previousInput = "0";
+    operation = null;
+    resetInput = false;
+    calculationString = "";
+    updateDisplay();
+}
+
+// Calculate the percentage
+function calculatePercentage() {
+    currentInput = (parseFloat(currentInput) / 100).toString();
+    updateDisplay();
+}
