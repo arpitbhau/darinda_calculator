@@ -150,3 +150,86 @@ function calculatePercentage() {
     currentInput = (parseFloat(currentInput) / 100).toString();
     updateDisplay();
 }
+
+// Event listeners for No. btns
+document.getElementById("zero").addEventListener("click", () => inputDigit("0"));
+document.getElementById("one").addEventListener("click", () => inputDigit("1"));
+document.getElementById("two").addEventListener("click", () => inputDigit("2"));
+document.getElementById("three").addEventListener("click", () => inputDigit("3"));
+document.getElementById("four").addEventListener("click", () => inputDigit("4"));
+document.getElementById("five").addEventListener("click", () => inputDigit("5"));
+document.getElementById("six").addEventListener("click", () => inputDigit("6"));
+document.getElementById("seven").addEventListener("click", () => inputDigit("7"));
+document.getElementById("eight").addEventListener("click", () => inputDigit("8"));
+document.getElementById("nine").addEventListener("click", () => inputDigit("9"));
+
+// Event listeners for operator btns
+document.getElementById("add").addEventListener("click", () => handleOperator("+"));
+document.getElementById("subtract").addEventListener("click", () => handleOperator("-"));
+document.getElementById("multiply").addEventListener("click", () => handleOperator("*"));
+document.getElementById("divide").addEventListener("click", () => handleOperator("/"));
+document.getElementById("equals").addEventListener("click", calculate);
+
+
+// Event listeners for other btns
+document.getElementById("clear").addEventListener("click", resetCalculator);
+document.getElementById("decimal").addEventListener("click", inputDecimal);
+document.getElementById("percent").addEventListener("click", calculatePercentage);
+
+
+document.addEventListener("keydown", (event) => {
+    const key = event.key;
+
+    if (/^[0-9]$/.test(key)) {
+        event.preventDefault();
+        inputDigit(key);
+    }
+
+    switch (key) {
+        case "+":
+            event.preventDefault();
+            handleOperator("+");
+            break;
+        case "-":
+            event.preventDefault();
+            handleOperator("-");
+            break;
+        case "*":
+            event.preventDefault();
+            handleOperator("*");
+            break;
+        case "/":
+            event.preventDefault();
+            handleOperator("/");
+            break;
+        case ".":
+        case ",":
+            event.preventDefault();
+            inputDecimal();
+            break;
+        case "Enter":
+        case "=":
+            event.preventDefault();
+            calculate();
+            break;
+        case "Escape":
+            event.preventDefault();
+            resetCalculator();
+            break;
+        case "Backspace":
+            event.preventDefault();
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            }
+            else {
+                currentInput = "0";
+            }
+            updateDisplay();
+            break;
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateDisplay();
+});
