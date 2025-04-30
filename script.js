@@ -64,7 +64,7 @@ function inputDecimal() {
 function handleOperator(nextOperator) {
     const inputValue = parseFloat(currentInput);
 
-    if (operator && !resetInput) {
+    if (operation && !resetInput) {
         calculate();
     }
     else if (!resetInput) {
@@ -106,19 +106,19 @@ function calculate() {
     switch (operation) {
         case "+":
             result = previousValue + currentValue;
-            calculationString = "${previousValue} + ${currentValue}";
+            calculationString = `${previousValue} + ${currentValue}`;
             break;
         case "-":
             result = previousValue - currentValue;
-            calculationString = "${previousValue} - ${currentValue}";
+            calculationString = `${previousValue} - ${currentValue}`;
             break;
         case "*":
             result = previousValue * currentValue;
-            calculationString = "${previousValue} * ${currentValue}";
+            calculationString = `${previousValue} * ${currentValue}`;
             break;
         case "/":
             result = previousValue / currentValue;
-            calculationString = "${previousValue} / ${currentValue}";
+            calculationString = `${previousValue} / ${currentValue}`;
             break;
         default:
             return;
